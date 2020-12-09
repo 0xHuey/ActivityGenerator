@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WOD Generator By Equipment - Generate a cross-training Workout Based on What You Have Available</title><meta name="description" content="Create a custom  things to do in the Washington, DC area. Choose from 16 options such as, Drinking, readomg and coffee shops."><meta name="robots" content="index, follow"><link rel="stylesheet" type="text/css" href="/r/style.css">
+<link rel="icon" href="/images/favicon.png" type="image/x-icon" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="Drinking idea locations, bars, daily outings, fun activities for the whole family!">
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-72312362-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<script>var wA = null;</script>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#edeff5",
+      "text": "#838391"
+    },
+    "button": {
+      "background": "#4b81e8"
+    }
+  }
+})});
+</script></head>
+<body>
+
+<script type="text/javascript">
+var aW = new Array(
+//{'w':'<strong>Drico</strong></br>13 Min AMRAP</br>13 Burpees</br>13 Push Ups</br>13 Lunges (each side)</br>13 Air Squats'},
+{'w':'1.5 hour Activity</br></br>12 Overhead Walking Lunges</br>20 Double Unders</br>10 Burpees'},
+{'w':'15 min AMRAP</br></br>12 Overhead Walking Lunges</br>20 Double Unders</br>5 Pistols Each Side'},
+{'w':'15 min AMRAP</br></br>12 Overhead Walking Lunges</br>10 Burpees</br>5 Pistols Each Side'},
+{'w':'15 min AMRAP</br></br>20 Double Unders</br>10 Burpees</br>5 Pistols Each Side'},
+{'w':'15 min AMRAP</br></br>12 Overhead Walking Lunges</br>20 Double Unders</br>6 Donkey Kicks'},
+{'w':'15 min AMRAP</br></br>12 Overhead Walking Lunges</br>10 Burpees</br>6 Donkey Kicks'},
+{'w':'15 min AMRAP</br></br>20 Double Unders</br>10 Burpees</br>6 Donkey Kicks'},
+{'w':'15 min AMRAP</br></br>12 Overhead Walking Lunges</br>5 Pistols Each Side</br>6 Donkey Kicks'},
+{'w':'15 min AMRAP</br></br>20 Double Unders</br>5 Pistols Each Side</br>6 Donkey Kicks'}
+);
+
+var equipList = new Array(
+{"id":"coffee", "name":"cofee", "matches":["coffee", "coffee", "coffee"]},
+{"id":"Drinking", "name":"Drinking", "matches":["Drinks", "Drinkings", "wine", "beer", "rum", "tequila", "vodka"]},
+{"id":"City Walking", "name":"City Walking", "matches":["Walking-city", "walk", "walking", "walker"]},
+{"id":"Hiking", "name":"Hiking rope", "matches":["moutains", "country", "hikes", "hiking mountain"]},
+{"id":"drive", "name":"drive", "matches":["car ride", "car-ride", "cars ride", "driving"]},
+{"id":"medicine_ball", "name":"Medicine/weighted ball", "matches":["wallball", "wall ball", "wall-ball", "medicine", "med ball", "medball"]},
+{"id":"dumbbells", "name":"Dumbbells", "matches":["dumbbell", "dumb-bell"]},
+{"id":"kettlebell", "name":"Kettlebell", "matches":["kb", "kettlebell", "kettle-bell"]},
+{"id":"barbell", "name":"Barbell and weights", "matches":["front rack", "clean", "deadlift", "jerk", "front squat", "back squat", "push press"]},
+{"id":"bench", "name":"Bench", "matches":["bench"]},
+{"id":"squat_rack", "name":"Squat rack", "matches":["front squat", "back squat"]},
+{"id":"rings", "name":"Rings", "matches":["rings"]},
+{"id":"climbing_rope", "name":"Climbing rope", "matches":["rope climb", "climb rope"]},
+{"id":"rower", "name":"Rower", "matches":[" row", "row ", "rowing"]},
+{"id":"swimming_pool", "name":"Swimming pool", "matches":["swim", "pool"]},
+{"id":"dip_bars", "name":"Dip bars", "matches":["dip"]}
+);
+
+var currentNumber = 0;
+var selection = [];
+
+function bWs() {
+
+selection = [];
+var equipmentChecks = document.getElementsByName("equipment");
+for(k=0;k<equipmentChecks.length;k++) {
+     if(equipmentChecks[k].checked){
+          selection.push(equipmentChecks[k].value);
+     }
+}
+
+document.getElementById("noEquipment").innerHTML = selection.length;
+document.getElementById("noWods").innerHTML = "-";
+
+avWs = aW.slice();
+
+for (var i = avWs.length - 1; i >= 0; i--) {
+     var gotMatch = false;
+          for (var yy = equipList.length - 1; yy >= 0; yy--) {
+               if (selection.indexOf(equipList[yy]["id"]) >= 0) {
+               } else {
+                    for (var xx = equipList[yy]["matches"].length - 1; xx >= 0; xx--) {
+                         if ((avWs[i]["w"]).toLowerCase().includes(equipList[yy]["matches"][xx])) {
+                              gotMatch = true;
+                              reason = "matched so removing "+equipList[yy]["matches"][xx];
+                              break;
+                         } 
+                    }
+               }
+               if (gotMatch) {break;}
+          }
+     if (gotMatch) {
+          // console.log(reason);
+          avWs.splice(i, 1);
+     }
+}
+
+currentNumber = 0;
+
+avWs = shuffle(avWs);
+
+gR();
+
+}
+
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+
+function gR() {
+     document.getElementById("wDiv").style.display = "none";
+     document.getElementById("share-buttons").style.display = "none";
+     document.getElementById("loading").style.display = "block";
+     
+     if (currentNumber <= avWs.length) {
+          wD = aLs(avWs[currentNumber]["w"]);
+          document.getElementById("wDetail").innerHTML = wD;
+          currentNumber++;
+     } else {
+          bWs();
+     }
+
+     setTimeout(function () {
+          document.getElementById("loading").style.display = "none";
+          document.getElementById("wDiv").style.display = "block";
+          document.getElementById("share-buttons").style.display = "block";
+          if (avWs.length >= 1000) {
+               nWods = avWs.length.toString()[0] + "," + (avWs.length).toString().substring(1,4);
+          } else {nWods = avWs.length;}
+          document.getElementById("noWods").innerHTML = nWods;
+    }, 800);
+}
+
+var d_Ls = ["1rm","air-squat","walking-lunge"];
+var d_Ns = ["1RM","Air Squat"];
+
+function aLs(wD){
+     for (var i = d_Ns.length - 1; i >= 0; i--) {
+          if(wD.indexOf(d_Ns[i]) > 0) {
+               wD = wD.replace(d_Ns[i],"<a href='/definitions/"+d_Ls[i] +"' target='_blank'>" + d_Ns[i] + "</a>");
+          }
+     }
+     return wD;
+}
+
+function sh(platform){
+     // alert("need to enable this to share!");
+     var wDs = document.getElementById("wDetail").innerText;
+     // alert(wDs);
+     wDs = encodeURI(wDs);
+     // wDs = wDs.replace(/\n/g,"%0D%0A");
+     // wDs = wDs.replace(/ /g,"%20");
+     var shURL = "";
+     var cwURL = window.location.href;
+     switch(platform){
+          case "FB":
+               shURL = "http://www.facebook.com/sharer.php?u="+cwURL;
+               break;
+          case "TW":
+               shURL = "https://twitter.com/share?url="+cwURL+"&amp;text="+wDs+"%0D%0A&amp;hashtags=WOD";
+               break;
+          case "EM":
+               shURL = "mailto:?subject=Found%20a%20WOD%20you%20might%20like!&body="+wDs+"%0D%0A%0D%0A"+cwURL;
+               break;
+     }
+     // console.log(shURL);
+     window.open(shURL,'_blank');
+}
+
+function toggleEquipment(){
+     if (document.getElementById("equipmentChooserAll").style.display == "none") {
+          document.getElementById("equipmentChooserAll").style.display = "block";
+          document.getElementById("choose-equipment").innerHTML = '<span class="arrowCode">&#65516;</span> Choose Equipment (<span id="noEquipment">'+selection.length+'</span> Selected)';
+     } else {
+          document.getElementById("equipmentChooserAll").style.display = "none";
+          document.getElementById("choose-equipment").innerHTML = '<span class="arrowCode">&#65515;</span> Choose Equipment (<span id="noEquipment">'+selection.length+'</span> Selected)';
+     }
+}
+
+function showEquip(){
+     document.getElementById("equipmentChooserAll").style.display = "block";
+     document.getElementById("choose-equipment").innerHTML = '<span class="arrowCode">&#65516;</span> Choose Equipment (<span id="noEquipment">'+selection.length+'</span> Selected)';
+}
+
+</script>
+
+<label for="show-menu" class="show-menu">Menu</label>
+<input type="checkbox" id="show-menu" role="button">
+	<ul id="menu">
+	<li><a href="/">Home</a></li>
+	<li><a href="/category">Activity Generator Categories</a></li>
+	<li><a href="/definitions">Movement Definitions</a></li>
+	<li><a href="/mobile-apps">Mobile Apps</a></li>
+	<li><a href="/submit-a-wod">Submit a Activity</a></li>
+	<li><a href="/resources">How to find other things to do during COVID-19</a></li>
+	<li><a href="/contact-us">Contact Us</a></li>
+</ul>
+
+<div class="mainContainer">
+<div class="inner">
+
+<h1>Things to do generator</h1><p>Create a custom things to do in your area by selecting a few options below!</p>
+<button type="button" onclick="toggleEquipment()" id="choose-equipment"><span class="arrowCode">&#65516;</span> Choose Your activity! (<span id="noEquipment">0</span> Selected)</button>
+<div id="equipmentChooserAll"> 
+<div class="equipmentChooserThird">
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="running_space"  value="running_space"> <span>Coffee</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="pullup_bar"  value="pullup_bar"> <span>Drinking</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="wall"  value="wall"> <span>City walking</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="skipping_rope"  value="skipping_rope"> <span>Hikinge</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="box"  value="box"> <span>2.5 Hour drive</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="medicine_ball"  value="medicine_ball"> <span>Medicine Ball</span></label>
+</div>
+<div class="equipmentChooserThird">
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="dumbbells"  value="dumbbells"> <span>Dog watching</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="kettlebell"  value="kettlebell"> <span>People watching</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="barbell"  value="barbell"> <span>Plane Watching</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="bench"  value="bench"> <span>Monuments</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="squat_rack"  value="squat_rack"> <span>Historical buildings</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="rings"  value="rings"> <span>Romantic Walks</span></label>
+</div>
+<div class="equipmentChooserThird">
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="climbing_rope"  value="climbing_rope"> <span>Cheap First Date</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="rower"  value="rower"> <span>Bar</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="swimming_pool"  value="swimming_pool"> <span>River</span></label>
+<label class="equipmentChooser"><input type="checkbox" onclick="javascript:bWs();" name="equipment" id="dip_bars"  value="dip_bars"> <span>All</span></label>
+</div>
+</div>
+<p><span id="noWods">-</span> Activities available based on current selection.</p></div>
+<div class="workoutContainer">
+	<div class="loading" id="loading">
+	  <div class="rect1"></div>
+	  <div class="rect2"></div>
+	  <div class="rect3"></div>
+	  <div class="rect4"></div>
+	  <div class="rect5"></div>
+	</div>
+	<div id="wDiv" style="display:none;">
+		<p id="wDetail"><b id="wName">100s</b>200 squats<br>300 pushups<br>400 pullups</p>
+	</div>
+	<div id="share-buttons" style="display:none;"><a href="javascript:sh('FB')" target="_blank"><img src="/images/facebook.png" alt="Facebook" /></a><a href="javascript:sh('TW')" target="_blank"><img src="/images/twitter.png" alt="Twitter" /></a><a href="javascript:sh('EM')"><img src="/images/email.png" alt="Email" /></a></div>
+	<div class="aContainer">	
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<script type="text/javascript">
+			if (window.matchMedia('(min-width: 768px)').matches) {var window_width = "big";} else {var window_width = "small";}
+			if (window_width == "small") {
+				// <!-- (728) -->
+				document.write('<ins class="adsbygoogle" style="display:inline-block;width:320px;height:50px" data-ad-client="ca-pub-3714997142216038" data-ad-slot="5806035503"></ins>');
+			} else {
+				// <!-- (320) -->
+				document.write('<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-3714997142216038" data-ad-slot="7282768705"></ins>');
+			}
+		</script>
+		<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</div>
+	<div class="bDiv">
+		<button onclick="gR()" type="button">&#8635; Give Me Another WOD!</button>
+		<a class="btn" onclick="showEquip()" href="#choose-equipment"><button class="blue" type="button">Choose Equipment</button></a>		<a class="btn" href="/category"><button class="blue" type="button">&lt; View All Categories</button></a> 
+	</div>
+			<!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+<!-- TWG WOD Gen (responsive) -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3714997142216038"
+     data-ad-slot="1649911108"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<p>We just launched this tool. If you have any feedback, we would love to hear it! <a href="/contact-us?message=Hi, I have some feedback on the WOD Generator by Equipment: ">Contact us here</a>.<br><br></p>
+
+<script type="text/javascript">bWs();</script>
+
+</div>
+<footer>
+	<ul>
+		<li><a href="/category">Activity Categories</a></li>|
+		<li><a href="/definitions">Things Definitions</a></li>|
+		<li><a href="/submit-a-wod">Submit a WOD</a></li>|
+		<li><a href="/resources">Resources</a></li>|
+		<li><a href="/travel-equipment-generator">Things to do generator <span class="beta">Beta!</span></a></li>|
+		<li><a href="/mobile-apps">Mobile Apps</a></li>|
+		<li><a href="/contact-us">Contact Us</a></li>
+	</ul>
+  <br>
+</footer>
+</body>
+</html>
